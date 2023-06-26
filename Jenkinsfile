@@ -1,19 +1,20 @@
-pipeline {
+pipeline
+{
     agent any
     stages {
-        stage ('SCM') {
+        stage (git) {
             steps {
-                git branch: 'master', url: 'https://github.com/vamsibyramala/dicet_tv.git'
+                git branch: 'main', url: 'https://github.com/vamsibyramala/live01.git'
             }
         }
-        stage ('Build') {
+        stage (maven) {
             steps {
                 sh 'mvn clean package'
             }
         }
-        stage ('Deploy') {
+        stage (deploy) {
             steps {
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.126.108.68:8080/')], contextPath: 'test', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.233.148.251:8080/')], contextPath: 'ROOT', war: '**/*.war'
             }
         }
     }
